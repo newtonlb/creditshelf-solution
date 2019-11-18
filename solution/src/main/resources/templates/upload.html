@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<h1>Upload files</h1>
+<h2>Upload Corporations CSV</h2>
+<h3>Please change CSV headers to Id,Name,Cost,Currency (any order)</h3>
+<form method="POST" action="/upload" enctype="multipart/form-data">
+    <input type="file" name="file" /><br/><br/>
+    <input type="submit" value="Submit" />
+</form>
+<h2>Upload Sales CSV</h2>
+<form method="POST" action="/uploadSales" enctype="multipart/form-data">
+    <input type="file" name="file" /><br/><br/>
+    <input type="submit" value="Submit" />
+</form>
+</body>
+</html>
