@@ -64,7 +64,7 @@ public class UploadController {
         try {
 
             // Get the file and save it somewhere
-            System.out.println("file name: " + file.getName());
+            
             String companyName = FilenameUtils.removeExtension(file.getOriginalFilename());
             Company company = new Company(companyName);
             companyService.saveOrUpdate(company);
@@ -79,7 +79,6 @@ public class UploadController {
                     while (csvUserIterator.hasNext()) {
                         Product product = csvUserIterator.next();
                         product.setCompany(companyName);
-                        System.out.println(product);
                         productService.saveOrUpdate(product);
                         
                     }
@@ -106,7 +105,6 @@ public class UploadController {
         try {
 
             // Get the file and save it somewhere
-            System.out.println("file name: " + file.getName());
             
 
             CSVReader csvReader = new CSVReaderBuilder(new InputStreamReader(file.getInputStream())).withSkipLines(1).build();
@@ -117,7 +115,7 @@ public class UploadController {
             Date orderDate = new Date();
             while ((nextRecord = csvReader.readNext()) != null) {
                 if(!nextRecord[0].isEmpty() && !nextRecord[1].isEmpty() && !nextRecord[2].isEmpty()) {
-                    System.out.println("new order");
+                    
                     
                     try {
                         orderDate = new SimpleDateFormat("MM/dd/yy").parse(nextRecord[1]);
@@ -145,7 +143,6 @@ public class UploadController {
                     .currency(nextRecord[6])
                     .salePrice(new BigDecimal(nextRecord[5].replace(',','.')));
 
-                    System.out.println(productSale);
                     productSalesService.saveOrUpdate(productSale);
 
                 }
@@ -158,18 +155,11 @@ public class UploadController {
                     .currency(nextRecord[6])
                     .salePrice(new BigDecimal(nextRecord[5].replace(',','.')));
 
-                    System.out.println(productSale);
+                   
 
                     productSalesService.saveOrUpdate(productSale);
                 }
-                System.out.println("company name : " + nextRecord[0]);
-                System.out.println("Order date : " + nextRecord[1]);
-                System.out.println("Order number : " + nextRecord[2]);
-                System.out.println("Product Id : " + nextRecord[3]);
-                System.out.println("Quantity : " + nextRecord[4]);
-                System.out.println("Sale price : " + nextRecord[5]);
-                System.out.println("Currency : " + nextRecord[6]);
-                System.out.println("==========================");
+                
             }
             redirectAttributes.addFlashAttribute("message",
                     "You successfully uploaded '" + file.getOriginalFilename() + "'");

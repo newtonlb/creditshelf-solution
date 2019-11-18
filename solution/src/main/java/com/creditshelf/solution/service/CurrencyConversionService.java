@@ -20,9 +20,8 @@ public class CurrencyConversionService {
         if (conversionRates == null) {
             conversionRates = restTemplate.getForObject(conversionRatingAPI, ConversionRates.class);
         }
-        System.out.println("original value: " + value + " currency: " + currency);
+        
         BigDecimal converted = value.divide(conversionRates.getRates().get(currency), 2, RoundingMode.CEILING);
-        System.out.println("converted: " + converted);
         return converted;
     }
 

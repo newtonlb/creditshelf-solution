@@ -96,8 +96,7 @@ public class SalesByCompanyDTO {
         for (ProductSales product : this.products) {
             BigDecimal quantity = new BigDecimal(product.getQuantity());
             BigDecimal salePrice = product.getSalePrice();
-            System.out.println("sale price: " + salePrice + " quantity: " + quantity);
-            this.total = this.total.add(product.getSalePrice().multiply(quantity));
+            this.total = this.total.add(salePrice.multiply(quantity));
         }
     }
     @Override

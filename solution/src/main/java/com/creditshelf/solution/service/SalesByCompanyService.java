@@ -27,8 +27,6 @@ ProductSalesRepository productSalesRepository;
             List<ProductSales> productSalesConverted = productSales;
             for(ProductSales productSale : productSalesConverted) {
                 if(!productSale.getCurrency().equals("EUR")) {
-                    System.out.println(productSale.getCurrency());
-                    System.out.println(productSale.getSalePrice());
                     productSale.setSalePrice(currencyConversionService.convertToEuro(productSale.getCurrency(), productSale.getSalePrice()));
                     productSale.setCurrency("EUR");
                 }
