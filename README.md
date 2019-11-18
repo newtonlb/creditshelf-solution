@@ -82,5 +82,5 @@ Due to the lack of time, there are several limitations in the solution which nee
 - No proper error handling (catch expeptions, return http error codes)
 - Interface is not friendly
 
-If possible, I will update this repository with thos improvements.
+If possible, I will update this repository with these improvements.
 
