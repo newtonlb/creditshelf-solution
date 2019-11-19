@@ -9,14 +9,20 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.apache.commons.io.FilenameUtils;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -24,12 +30,14 @@ import com.creditshelf.solution.model.Company;
 import com.creditshelf.solution.model.Product;
 import com.creditshelf.solution.model.ProductSales;
 import com.creditshelf.solution.model.Sale;
+import com.creditshelf.solution.service.CSVDictionaryService;
 import com.creditshelf.solution.service.CompanyService;
 import com.creditshelf.solution.service.ProductSalesService;
 import com.creditshelf.solution.service.ProductService;
 import com.creditshelf.solution.service.SaleService;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
@@ -46,6 +54,9 @@ public class UploadController {
 
     @Autowired
     ProductSalesService productSalesService;
+
+    @Autowired
+    CSVDictionaryService csvDictionaryService;
 
     @GetMapping("/")
     public String index() {
@@ -68,10 +79,35 @@ public class UploadController {
             String companyName = FilenameUtils.removeExtension(file.getOriginalFilename());
             Company company = new Company(companyName);
             companyService.saveOrUpdate(company);
-            //CSVReader csvReader = new CSVReader();
+            //CSVReader csvReader = new CSVReader()
+            BufferedReader brTest = new BufferedReader(new InputStreamReader(file.getInputStream()));
+            String header = brTest.readLine();
+            String[] columns = header.split(",");
+            List<String> translatedColumns = new ArrayList<>();
+            for (int i = 0; i < columns.length; i++) {
+                String translatedColumn;
+                if(!columns[i].equals("Currency")) {
+                     translatedColumn = csvDictionaryService.getTranslatedHeaderField(columns[i]);
+                } else {
+                    translatedColumn = columns[i];
+                }
+                
+                translatedColumns.add(translatedColumn);
+
+            }
+            String[] newHeader = new String[translatedColumns.size()];
+            newHeader = translatedColumns.toArray(newHeader);
+            ColumnPositionMappingStrategy strategy = new ColumnPositionMappingStrategy();
+            strategy.setType(Product.class);
+            strategy.setColumnMapping(newHeader);
+            
+            
+            
             CsvToBean<Product> csvToBean = new CsvToBeanBuilder(new InputStreamReader(file.getInputStream()))
                     .withType(Product.class)
+                    .withMappingStrategy(strategy)
                     .withIgnoreLeadingWhiteSpace(true)
+                    .withSkipLines(1)
                     .build();
             
                     Iterator<Product> csvUserIterator = csvToBean.iterator();
