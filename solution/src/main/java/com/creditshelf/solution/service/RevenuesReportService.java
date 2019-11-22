@@ -34,7 +34,7 @@ CurrencyConversionService currencyConversionService;
         Map<Integer,MonthlyReport> history = new HashMap<Integer, MonthlyReport>();
 
         for(SalesByCompanyDTO saleByCompany : salesByCompany ) {
-            int month = saleByCompany.getOrderDate().getMonth() + 1;
+            int month = saleByCompany.getOrderDate().getMonthValue();
             totalRevenue = totalRevenue.add(saleByCompany.getTotal());
             if (!history.containsKey(month)) {
                 

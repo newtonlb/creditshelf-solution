@@ -37,7 +37,7 @@ CurrencyConversionService currencyConversionService;
         Map<Integer,MonthlyReport> history = new HashMap<Integer, MonthlyReport>();
 
         for(SalesByCompanyDTO saleByCompany : salesByCompany ) {
-            int month = saleByCompany.getOrderDate().getMonth() + 1;
+            int month = saleByCompany.getOrderDate().getMonthValue();
             BigDecimal profit = BigDecimal.ZERO;
             BigDecimal cost = BigDecimal.ZERO;
             for (ProductSales productSale : saleByCompany.getProducts()) {

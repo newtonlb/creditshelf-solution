@@ -25,6 +25,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import com.creditshelf.solution.model.Company;
 import com.creditshelf.solution.model.Product;
@@ -148,14 +151,16 @@ public class UploadController {
             String[] nextRecord;
             long orderNumber = -1;
             String companyName = "";
-            Date orderDate = new Date();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yy");
+            LocalDate orderDate = LocalDate.now();
             while ((nextRecord = csvReader.readNext()) != null) {
                 if(!nextRecord[0].isEmpty() && !nextRecord[1].isEmpty() && !nextRecord[2].isEmpty()) {
                     
                     
                     try {
-                        orderDate = new SimpleDateFormat("MM/dd/yy").parse(nextRecord[1]);
-                    } catch(ParseException e) {
+                        
+                        orderDate = LocalDate.parse(nextRecord[1], formatter);
+                    } catch(DateTimeParseException e) {
                         e.printStackTrace();
                     }
                     //Storing variables for next rows

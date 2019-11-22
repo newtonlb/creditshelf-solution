@@ -1,5 +1,6 @@
 package com.creditshelf.solution.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -26,15 +27,14 @@ public class Sale {
     private long orderNumber;
 
     @Column(name="order_date")
-    @Temporal(TemporalType.DATE)
     @CsvBindByName(column="Order date")
-    private Date orderDate;
+    private LocalDate orderDate;
 
 
     public Sale() {
     }
 
-    public Sale(String companyName, long orderNumber, Date orderDate) {
+    public Sale(String companyName, long orderNumber, LocalDate orderDate) {
         this.companyName = companyName;
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
@@ -56,11 +56,11 @@ public class Sale {
         this.orderNumber = orderNumber;
     }
 
-    public Date getOrderDate() {
+    public LocalDate getOrderDate() {
         return this.orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDate orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -74,7 +74,7 @@ public class Sale {
         return this;
     }
 
-    public Sale orderDate(Date orderDate) {
+    public Sale orderDate(LocalDate orderDate) {
         this.orderDate = orderDate;
         return this;
     }

@@ -1,13 +1,14 @@
 package com.creditshelf.solution.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 public class SalesByCompanyDTO {
     long orderNumber;
-    Date orderDate;
+    LocalDate orderDate;
     BigDecimal total;
     List<ProductSales> products;
     
@@ -15,7 +16,7 @@ public class SalesByCompanyDTO {
     public SalesByCompanyDTO() {
     }
 
-    public SalesByCompanyDTO(long orderNumber, Date orderDate, BigDecimal total, List<ProductSales> products) {
+    public SalesByCompanyDTO(long orderNumber, LocalDate orderDate, BigDecimal total, List<ProductSales> products) {
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
         this.total = total;
@@ -30,11 +31,11 @@ public class SalesByCompanyDTO {
         this.orderNumber = orderNumber;
     }
 
-    public Date getOrderDate() {
+    public LocalDate getOrderDate() {
         return this.orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDate orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -59,7 +60,7 @@ public class SalesByCompanyDTO {
         return this;
     }
 
-    public SalesByCompanyDTO orderDate(Date orderDate) {
+    public SalesByCompanyDTO orderDate(LocalDate orderDate) {
         this.orderDate = orderDate;
         return this;
     }
