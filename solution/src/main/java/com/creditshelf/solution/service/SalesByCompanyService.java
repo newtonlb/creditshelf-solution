@@ -15,6 +15,9 @@ public class SalesByCompanyService {
 SaleRepository saleRepository;
 
 @Autowired
+ProductRepository productRepository;
+
+@Autowired
 CurrencyConversionService currencyConversionService;
 @Autowired
 ProductSalesRepository productSalesRepository;
@@ -24,14 +27,21 @@ ProductSalesRepository productSalesRepository;
         List<Sale> sales = saleRepository.findSalesByCompanyName(company);
         for(Sale sale: sales) {
             List<ProductSales> productSales = productSalesRepository.findProductsSalesByOrderAndCompany(company, sale.getOrderNumber());
-            List<ProductSales> productSalesConverted = productSales;
-            for(ProductSales productSale : productSalesConverted) {
+            List<ProductSalesDTO> productSalesConverted = new ArrayList<>();
+            for(ProductSales productSale : productSales) {
                 if(!productSale.getCurrency().equals("EUR")) {
                     productSale.setSalePrice(currencyConversionService.convertToEuroWithDateCurrency(productSale.getCurrency(), productSale.getSalePrice(), sale.getOrderDate()));
                     productSale.setCurrency("EUR");
                 }
-                
+                String productName = productRepository.findProductByIdAndCompany(company, productSale.getProductId()).getName();
+                ProductSalesDTO productSalesDTO = new ProductSalesDTO()
+                .productName(productName)
+                .quantity(productSale.getQuantity())
+                .salePrice(productSale.getSalePrice())
+                .productId(productSale.getProductId());
+                productSalesConverted.add(productSalesDTO);
             }
+            
             SalesByCompanyDTO saleByCompanyDTO = new SalesByCompanyDTO()
             .orderDate(sale.getOrderDate())
             .orderNumber(sale.getOrderNumber())

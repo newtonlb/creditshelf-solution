@@ -10,13 +10,13 @@ public class SalesByCompanyDTO {
     long orderNumber;
     LocalDate orderDate;
     BigDecimal total;
-    List<ProductSales> products;
+    List<ProductSalesDTO> products;
     
 
     public SalesByCompanyDTO() {
     }
 
-    public SalesByCompanyDTO(long orderNumber, LocalDate orderDate, BigDecimal total, List<ProductSales> products) {
+    public SalesByCompanyDTO(long orderNumber, LocalDate orderDate, BigDecimal total, List<ProductSalesDTO> products) {
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
         this.total = total;
@@ -47,11 +47,11 @@ public class SalesByCompanyDTO {
         this.total = total;
     }
 
-    public List<ProductSales> getProducts() {
+    public List<ProductSalesDTO> getProducts() {
         return this.products;
     }
 
-    public void setProducts(List<ProductSales> products) {
+    public void setProducts(List<ProductSalesDTO> products) {
         this.products = products;
     }
 
@@ -70,7 +70,7 @@ public class SalesByCompanyDTO {
         return this;
     }
 
-    public SalesByCompanyDTO products(List<ProductSales> products) {
+    public SalesByCompanyDTO products(List<ProductSalesDTO> products) {
         this.products = products;
         return this;
     }
@@ -94,7 +94,7 @@ public class SalesByCompanyDTO {
     public void calculateTotal() {
 
         this.total = BigDecimal.ZERO;
-        for (ProductSales product : this.products) {
+        for (ProductSalesDTO product : this.products) {
             BigDecimal quantity = new BigDecimal(product.getQuantity());
             BigDecimal salePrice = product.getSalePrice();
             this.total = this.total.add(salePrice.multiply(quantity));

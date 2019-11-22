@@ -40,9 +40,9 @@ CurrencyConversionService currencyConversionService;
             int month = saleByCompany.getOrderDate().getMonthValue();
             BigDecimal profit = BigDecimal.ZERO;
             BigDecimal cost = BigDecimal.ZERO;
-            for (ProductSales productSale : saleByCompany.getProducts()) {
+            for (ProductSalesDTO productSale : saleByCompany.getProducts()) {
 
-                Product product = productService.getProductByCompanyNameAndId(productSale.getCompanyName(), productSale.getProductId());
+                Product product = productService.getProductByCompanyNameAndId(company, productSale.getProductId());
                 BigDecimal productCost = new BigDecimal(product.getCost().replace(',', '.'));
                 cost = currencyConversionService.convertToEuroWithDateCurrency(product.getCurrency(), productCost, saleByCompany.getOrderDate());
                 
