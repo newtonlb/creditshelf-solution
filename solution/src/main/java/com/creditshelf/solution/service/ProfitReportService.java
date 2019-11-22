@@ -44,7 +44,7 @@ CurrencyConversionService currencyConversionService;
 
                 Product product = productService.getProductByCompanyNameAndId(productSale.getCompanyName(), productSale.getProductId());
                 BigDecimal productCost = new BigDecimal(product.getCost().replace(',', '.'));
-                cost = currencyConversionService.convertToEuro(product.getCurrency(), productCost);
+                cost = currencyConversionService.convertToEuroWithDateCurrency(product.getCurrency(), productCost, saleByCompany.getOrderDate());
                 
                 profit = profit.add(productSale.getSalePrice().subtract(cost).multiply(new BigDecimal(productSale.getQuantity())));
 
